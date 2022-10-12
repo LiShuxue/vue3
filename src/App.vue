@@ -1,16 +1,31 @@
 <script setup>
+// 组件引入后可直接使用
 import HelloWorld from '@/components/HelloWorld.vue';
+
+// 父组件监听函数
+const testEvent = (e) => {
+  console.log('父组件中信息：parent event-triggerd');
+  console.log('event对象：', e);
+};
 </script>
 
 <template>
-  <HelloWorld msg="hello world" />
+  <div>组件与核心知识：</div>
+  <hr />
+  <HelloWorld msg="hello world" @my-event="testEvent" />
 
-  <nav>
-    <router-link to="/">Home</router-link>
-    <router-link to="/about">About</router-link>
-  </nav>
+  <router-link to="/about" style="display: block; margin-top: 50px">
+    生命周期
+  </router-link>
+  <router-link to="/"> 路由vue-router和状态管理Pinia </router-link>
+  <hr />
 
-  <router-view />
+  <!-- transition 和 keep-alive 现在必须通过 v-slot API 在 RouterView 内部使用 -->
+  <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
 </template>
 
 <style lang="scss" scoped>
