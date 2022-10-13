@@ -16,11 +16,14 @@ const { proxy } = getCurrentInstance();
 console.log('实例对象this：', proxy);
 
 /**
- *  定义和接受props
+ *  定义和接受props，v-modal双向绑定
  */
 const props = defineProps({
   msg: {
     type: String,
+    required: true,
+  },
+  modelValue: {
     required: true,
   },
 });
@@ -28,9 +31,9 @@ const props = defineProps({
 console.log('参数props: ', props.msg); // 正确
 
 /**
- *  定义和触发事件
+ *  定义和触发事件，以及更新v-modal的事件
  */
-const emit = defineEmits(['my-event']);
+const emit = defineEmits(['my-event', 'update:modelValue']);
 const triggerEvent = (event) => {
   console.log('子组件中信息：child triggerd');
   emit('my-event', event);
@@ -120,6 +123,11 @@ watch(
     <div>全局数据：{{ global }}</div>
     <div>组件props：{{ msg }}</div>
     <div>组件props：{{ props.msg }}</div>
+    <div>双向绑定v-modal: {{ modelValue }}</div>
+    <input
+      :value="modelValue"
+      @input="emit('update:modelValue', $event.target.value)"
+    />
     <br />
     <br />
     <button @click="triggerEvent">父子通信</button>

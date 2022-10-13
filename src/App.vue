@@ -1,4 +1,5 @@
 <script setup>
+import { ref, watch } from 'vue';
 // 组件引入后可直接使用
 import HelloWorld from '@/components/HelloWorld.vue';
 
@@ -7,12 +8,18 @@ const testEvent = (e) => {
   console.log('父组件中信息：parent event-triggerd');
   console.log('event对象：', e);
 };
+
+const init = ref(0);
+
+watch(init, (val) => {
+  console.log('父组件中v-modal变化：', val);
+});
 </script>
 
 <template>
   <div>组件与核心知识：</div>
   <hr />
-  <HelloWorld msg="hello world" @my-event="testEvent" />
+  <HelloWorld v-model="init" msg="hello world" @my-event="testEvent" />
 
   <router-link to="/about" style="display: block; margin-top: 50px">
     生命周期
